@@ -1,4 +1,4 @@
-// import bcrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import { prismaClient } from "@pushlogs/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -28,12 +28,12 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await prismaClient.user.create({
       data: {
         email,
-        password: password,
+        password: hashedPassword,
       },
     });
 

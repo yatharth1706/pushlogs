@@ -12,6 +12,7 @@
     "@auth/prisma-adapter": "^2.1.0",
     "@pushlogs/db": "workspace:*",
     "@repo/ui": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
     "next": "^14.1.1",
     "next-auth": "^4.24.7",
