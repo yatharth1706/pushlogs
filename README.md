@@ -5,4 +5,5 @@ Logsnag alternative
 **Initial Draft for Dashboard Designs**
 
 
-![Dashboard HD (4)](https://github.com/yatharth1706/pushlogs/assets/32243289/6619d2d6-cc71-44a9-b382-2788d07a70eb)
+![Dashboard HD Design](https://github.com/yatharth1706/pushlogs/assets/32243289/4db2adf4-d267-4859-a39d-5329c930f7fa)
+
