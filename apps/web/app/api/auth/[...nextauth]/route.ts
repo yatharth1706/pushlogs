@@ -4,6 +4,8 @@ import Credentials, {
 } from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prismaClient } from "@pushlogs/db";
+import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
 import bcrypt from "bcrypt";
 
 export const authOptions = {
@@ -13,6 +15,14 @@ export const authOptions = {
   },
   // Configure one or more authentication providers
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
+    }),
     Credentials({
       name: "Credentials",
       credentials: {
@@ -35,7 +45,7 @@ export const authOptions = {
         // decrypt password
         let password_match = await bcrypt.compare(
           credentials.password,
-          user?.password as string
+          user?.password as string,
         );
 
         if (user && password_match) {
