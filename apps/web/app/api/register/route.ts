@@ -5,13 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   if (req.method === "POST") {
     const body = await req.json();
-    console.log(body);
-    const { email, password } = body;
-    console.log("email", email);
-    console.log("password", password);
+    console.log("Body", body);
+    const { name, email, password } = body;
 
-    if (!email || !password) {
-      return new NextResponse("Email and password are required", {
+    if (!name || !email || !password) {
+      return new NextResponse("Name, Email and password are required", {
         status: 400,
       });
     }
@@ -32,6 +30,7 @@ export async function POST(req: NextRequest) {
 
     const user = await prismaClient.user.create({
       data: {
+        name,
         email,
         password: hashedPassword,
       },

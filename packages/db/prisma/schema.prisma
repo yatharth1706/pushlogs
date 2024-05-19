@@ -16,8 +16,10 @@ datasource db {
 model User {
   id            String          @id @default(cuid())
   email String  @unique
-  password String
+  password String?
   name  String?
+  image String?
+  emailVerified Boolean?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
