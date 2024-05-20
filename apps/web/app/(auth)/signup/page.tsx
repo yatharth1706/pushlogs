@@ -6,14 +6,41 @@ import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
+const validate = (values: {
+  name: string;
+  email: string;
+  password: string;
+}) => {
+  const errors: { name?: string; email?: string; password?: string } = {};
+
+  if (!values.name) {
+    errors.name = "Required";
+  } else if (values.name.length < 3) {
+    errors.name = "Must be 3 characters or more";
+  }
+
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length < 8) {
+    errors.password = "Must be 8 characters or more";
+  }
+
+  return errors;
+};
 
 export default function Signup() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const signupUser = async () => {
+  const signupUser = async (name: string, email: string, password: string) => {
     // create a post request to the /api/register route
     const response = await fetch("/api/register", {
       method: "POST",
@@ -30,8 +57,28 @@ export default function Signup() {
     const user = await response.json();
     console.log("user", user);
     // redirect to the login page
-    router.push("/login");
+    toast("User registered successfully", {
+      type: "success",
+      position: "bottom-center",
+    });
+
+    setTimeout(() => {
+      router.push("/login");
+    }, 1200);
   };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      name: "",
+    },
+    onSubmit: async (values) => {
+      const { name, email, password } = values;
+      await signupUser(name, email, password);
+    },
+    validate,
+  });
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen space-y-4">
@@ -44,46 +91,72 @@ export default function Signup() {
           <h2 className="text-lg font-normal text-left">Create an account</h2>
 
           <div className="flex flex-col w-[80%] space-y-6">
-            <form className="flex flex-col w-full space-y-5">
+            <form
+              onSubmit={formik.handleSubmit}
+              className="flex flex-col w-full space-y-5"
+            >
               <div className="flex flex-col w-full space-y-2">
-                <label className="flex w-full space-x-4">Email:</label>
+                <label className="flex w-full space-x-4">Name:</label>
                 <input
                   type="text"
                   name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
+                  onChange={formik.handleChange}
+                  value={formik.values.name}
+                  className={
+                    "w-full px-3 py-2 border border-gray-300 rounded" +
+                    (formik.errors.name && formik.touched.name
+                      ? " border-red-500"
+                      : "")
+                  }
                   placeholder="Enter your name here"
                 />
+                {formik.errors.name && formik.touched.name ? (
+                  <small className="text-red-500">{formik.errors.name}</small>
+                ) : null}
               </div>
               <div className="flex flex-col w-full space-y-2">
                 <label className="flex w-full space-x-4">Email:</label>
                 <input
                   type="text"
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
+                  onChange={formik.handleChange}
+                  value={formik.values.email}
+                  className={
+                    "w-full px-3 py-2 border border-gray-300 rounded" +
+                    (formik.errors.email && formik.touched.email
+                      ? " border-red-500"
+                      : "")
+                  }
                   placeholder="Enter your email here"
                 />
+                {formik.errors.email && formik.touched.email ? (
+                  <small className="text-red-500">{formik.errors.email}</small>
+                ) : null}
               </div>
               <div className="flex flex-col space-y-2">
                 <label>Password:</label>
                 <input
                   type="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
+                  onChange={formik.handleChange}
+                  value={formik.values.password}
+                  className={
+                    "w-full px-3 py-2 border border-gray-300 rounded" +
+                    (formik.errors.password && formik.touched.password
+                      ? " border-red-500"
+                      : "")
+                  }
                   placeholder="Enter your password here"
                 />
+                {formik.errors.password && formik.touched.password ? (
+                  <small className="text-red-500">
+                    {formik.errors.password}
+                  </small>
+                ) : null}
               </div>
               <button
                 className="w-auto h-auto px-8 py-2 text-white rounded bg-slate-800 hover:bg-slate-700"
-                onClick={(e) => {
-                  e.preventDefault();
-                  signupUser();
-                }}
+                type="submit"
               >
                 Sign up
               </button>

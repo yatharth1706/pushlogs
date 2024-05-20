@@ -6,21 +6,66 @@ import Link from "next/link";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useFormik } from "formik";
+import { toast } from "react-toastify";
+
+const validate = (values: { email: string; password: string }) => {
+  const errors: { email?: string; password?: string } = {};
+
+  if (!values.email) {
+    errors.email = "Required";
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = "Invalid email address";
+  }
+
+  if (!values.password) {
+    errors.password = "Required";
+  } else if (values.password.length < 8) {
+    errors.password = "Must be 8 characters or more";
+  }
+
+  return errors;
+};
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   const router = useRouter();
 
-  const signInUser = async () => {
-    const response = await signIn("credentials", {
+  const signInUser = async (email: string, password: string) => {
+    signIn("credentials", {
       email,
       password,
       redirect: false,
+    }).then(({ ok, error }) => {
+      console.log(ok);
+      if (ok) {
+        toast("User logged in successfully", {
+          type: "success",
+          position: "bottom-center",
+        });
+
+        setTimeout(() => {
+          router.push("/");
+        }, 1200);
+      } else {
+        toast("Invalid email or password", {
+          type: "error",
+          position: "bottom-center",
+        });
+      }
     });
-    router.push("/");
   };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate,
+    onSubmit: async (values) => {
+      const { email, password } = values;
+      await signInUser(email, password);
+    },
+  });
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-screen space-y-4">
@@ -35,28 +80,49 @@ export default function Login() {
           </h2>
 
           <div className="flex flex-col w-[80%] space-y-6">
-            <form className="flex flex-col w-full space-y-5">
+            <form
+              className="flex flex-col w-full space-y-5"
+              onSubmit={formik.handleSubmit}
+            >
               <div className="flex flex-col w-full space-y-2">
                 <label className="flex w-full space-x-4">Email:</label>
                 <input
                   type="text"
                   name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  className={
+                    "w-full px-3 py-2 border border-gray-300 rounded" +
+                    (formik.errors.email && formik.touched.email
+                      ? " border-red-500"
+                      : "")
+                  }
                   placeholder="Enter your email here"
                 />
+                {formik.errors.email && formik.touched.email ? (
+                  <small className="text-red-500">{formik.errors.email}</small>
+                ) : null}
               </div>
               <div className="flex flex-col space-y-2">
                 <label>Password:</label>
                 <input
                   type="password"
                   name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  className={
+                    "w-full px-3 py-2 border border-gray-300 rounded" +
+                    (formik.errors.password && formik.touched.password
+                      ? " border-red-500"
+                      : "")
+                  }
                   placeholder="Enter your password here"
                 />
+                {formik.errors.password && formik.touched.password ? (
+                  <small className="text-red-500">
+                    {formik.errors.password}
+                  </small>
+                ) : null}
               </div>
               <div className="flex justify-between">
                 <div className="flex space-x-4">
@@ -71,10 +137,7 @@ export default function Login() {
               </div>
               <button
                 className="w-auto h-auto px-8 py-2 text-white rounded bg-slate-800 hover:bg-slate-700"
-                onClick={(e) => {
-                  e.preventDefault();
-                  signInUser();
-                }}
+                type="submit"
               >
                 Submit
               </button>

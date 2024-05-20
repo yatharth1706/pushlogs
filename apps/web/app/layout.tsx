@@ -1,9 +1,9 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
 const inter = Inter({ subsets: ["latin"] });
-import Provider from "../context/provider";
+import Provider from "../context/Provider";
+import ToastProvider from "../context/ToastProvider";
 
 export const metadata: Metadata = {
   title: "Create Turborepo",
@@ -18,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Provider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <ToastProvider>{children}</ToastProvider>
+        </body>
       </Provider>
     </html>
   );
