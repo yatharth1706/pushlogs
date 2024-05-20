@@ -53,9 +53,16 @@ export default function Signup() {
         "Content-Type": "application/json",
       },
     });
+    console.log(response);
 
-    const user = await response.json();
-    console.log("user", user);
+    if (!response.ok) {
+      toast("User might already exists", {
+        type: "error",
+        position: "bottom-center",
+      });
+      return;
+    }
+
     // redirect to the login page
     toast("User registered successfully", {
       type: "success",
