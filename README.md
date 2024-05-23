@@ -2,6 +2,8 @@
 
 Logsnag alternative
 
+**Figma Initial Designs** [Here](https://www.figma.com/design/Q13d6foUiwubGFKUBIshuJ/Untitled?node-id=0%3A1&t=SA47P8FASpFqRv6O-1)
+
 **Initial Draft for Dashboard Designs**
 
 
