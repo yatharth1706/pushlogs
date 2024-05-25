@@ -6,4 +6,4 @@ Logsnag alternative
 
 **Initial Draft for Dashboard Designs**
 
-![Dashboard Page](https://github.com/yatharth1706/pushlogs/assets/32243289/a20d9afe-d3e7-4376-8db3-6971ca6b8ba9)
+![Dashboard Page](https://github.com/yatharth1706/pushlogs/assets/32243289/7df8608a-55f9-42c8-b979-4461522c9e1b)
