@@ -44,24 +44,12 @@ const activeNav = "Dashboard";
 
 const AppNavigation: React.FC<Props> = () => {
   return (
-    <div className="w-[18%] flex flex-col space-y-6 p-8 border-r ">
+    <div className="w-[18%] h-screen flex flex-col space-y-6 p-8 border-r ">
       <div className="flex items-center justify-between">
         <Image src="/AppLogo.svg" width={200} height={200} alt="Logo" />
         <PiSidebarSimpleLight size={24} />
       </div>
-      <div className="flex p-4 space-x-4 border border-gray-200 rounded-lg">
-        <Image
-          src="/Profile.png"
-          width={80}
-          height={50}
-          alt="Profile pic"
-          className="object-cover w-12 h-12 rounded-full"
-        />
-        <div className="flex flex-col space-y-1">
-          <h2 className="font-medium">Yatharth Verma</h2>
-          <p className="text-xs text-gray-600">yatharthverma070@gmail.com</p>
-        </div>
-      </div>
+
       <div className="flex flex-col space-y-4">
         <h2 className="font-medium">General</h2>
         {generalNavs.map((nav) => (
@@ -91,6 +79,22 @@ const AppNavigation: React.FC<Props> = () => {
             <a href={nav.href}>{nav.name}</a>
           </div>
         ))}
+      </div>
+      <div
+        className="flex p-4 space-x-4 border border-gray-200 rounded-lg"
+        style={{ marginTop: "auto" }}
+      >
+        <Image
+          src="/Profile.png"
+          width={80}
+          height={50}
+          alt="Profile pic"
+          className="object-cover w-12 h-12 rounded-full"
+        />
+        <div className="flex flex-col space-y-1">
+          <h2 className="font-medium">Yatharth Verma</h2>
+          <p className="text-xs text-gray-600">yatharthverma070@gmail.com</p>
+        </div>
       </div>
     </div>
   );
