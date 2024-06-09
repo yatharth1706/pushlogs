@@ -46,7 +46,7 @@ const AppNavigation: React.FC<Props> = () => {
   return (
     <div className="w-[18%] h-screen flex flex-col space-y-6 p-8 border-r ">
       <div className="flex items-center justify-between">
-        <Image src="/AppLogo.svg" width={200} height={200} alt="Logo" />
+        <Image src="/AppLogo.svg" width={150} height={200} alt="Logo" />
         <PiSidebarSimpleLight size={24} />
       </div>
 
@@ -81,19 +81,21 @@ const AppNavigation: React.FC<Props> = () => {
         ))}
       </div>
       <div
-        className="flex p-4 space-x-4 border border-gray-200 rounded-lg"
+        className="flex p-4 space-x-2 border border-gray-200 rounded-lg"
         style={{ marginTop: "auto" }}
       >
         <Image
           src="/Profile.png"
-          width={80}
+          width={60}
           height={50}
           alt="Profile pic"
-          className="object-cover w-12 h-12 rounded-full"
+          className="object-cover w-8 h-8 rounded-full"
         />
-        <div className="flex flex-col space-y-1">
+        <div className="flex flex-col">
           <h2 className="font-medium">Yatharth Verma</h2>
-          <p className="text-xs text-gray-600">yatharthverma070@gmail.com</p>
+          <p className="text-[10px] text-gray-600">
+            yatharthverma070@gmail.com
+          </p>
         </div>
       </div>
     </div>
