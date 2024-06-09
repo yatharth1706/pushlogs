@@ -72,8 +72,7 @@ export default function Login() {
       <div className="grid w-4/5 h-[85%] grid-cols-2 mx-auto items-center justify-center">
         <div className="flex flex-col w-[90%] space-y-6 mx-auto">
           <section className="flex items-center space-x-4">
-            <Image src="/appLogo.png" width={40} height={40} alt="Logo" />
-            <h1 className="text-xl font-medium">PushLogs</h1>
+            <Image src="/AppLogo.svg" width={200} height={200} alt="Logo" />
           </section>
           <h2 className="text-lg font-normal text-left">
             Login to your account
